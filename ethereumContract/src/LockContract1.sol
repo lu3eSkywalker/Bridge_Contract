@@ -9,6 +9,11 @@ contract LockETH is Ownable {
 
     mapping (address => uint256) public balanceOfToken;
 
+    event LockEvent(address sender, uint256 _tokenValue);
+    event WithDrawEvent(address sender, uint256 _tokenValue);
+
+    event tokenUnlock(address _to, uint256 _amount);
+
     constructor(address _tokenAddress) Ownable(msg.sender) {
         tokenAddress = _tokenAddress;
     }
@@ -27,6 +32,8 @@ contract LockETH is Ownable {
         );
         require(success, "Token transfer failed");
         balanceOfToken[msg.sender] += _tokenValue;
+
+        emit LockEvent(msg.sender, _tokenValue);
     }
 
     function withdraw(address _tokenAddress, uint256 _tokenValue) public {
@@ -35,10 +42,23 @@ contract LockETH is Ownable {
         require(_tokenBalance > _tokenValue, "The Token Doesn't Exist on this Contract");
 
         balanceOfToken[msg.sender] -= _tokenValue;
-
         IERC20 token = IERC20(_tokenAddress);
 
         bool success = token.transfer(msg.sender, _tokenValue);
         require(success, "Error tranferring the tokens");
+
+        emit WithDrawEvent(msg.sender, _tokenValue);
+    }
+
+    function unlockTokens(address _to, uint256 _tokenValue) public onlyOwner {
+        IERC20 token = IERC20(tokenAddress);
+
+        uint256 contractBalance = token.balanceOf(address(this));
+        require(contractBalance >= _tokenValue, "Not Sufficient Tokens in the Contract");
+
+        bool success = token.transfer(_to, _tokenValue);
+        require(success, "Error Transferring the tokens");
+
+        emit tokenUnlock(_to, _tokenValue);
     }
 }
