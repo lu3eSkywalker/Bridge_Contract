@@ -9,7 +9,7 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract BUSDT is ERC20, Ownable {
 
-
+    
     event tokenBurn(address _from, uint256 _value);
 
     constructor() ERC20("BUSDT", "BUSDT") Ownable(msg.sender) {
