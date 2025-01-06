@@ -6,8 +6,9 @@ import {
 import { config } from "../config";
 import ConnectToWallet from "./ConnectToWallet";
 import GetUSDTtokenBalance from "./GetUSDTtokenBalance";
-import DepositUSDT from "./DepositUSDT";
-import ApproveTokens from "./ApproveTokens";
+import DepositUSDT from "./EthererumBlockchain/DepositUSDT";
+import ApproveTokens from "./EthererumBlockchain/ApproveTokens";
+import BurnTokens from "./BaseBlockchain/BurnTokens";
 
 const client = new QueryClient();
 
@@ -28,6 +29,7 @@ function App() {
         <GetUSDTtokenBalance />
         <ApproveTokens />
         <DepositUSDT />
+        <BurnTokens />
       </QueryClientProvider>
     </WagmiProvider>
   );

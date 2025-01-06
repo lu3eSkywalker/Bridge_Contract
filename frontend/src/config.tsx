@@ -8,6 +8,7 @@ export const config = createConfig({
     injected(),
   ],
   transports: {
-    [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_URL),
+    // [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_URL),
+    [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_URL_BASE_SEPOLIA),
   },
 })
