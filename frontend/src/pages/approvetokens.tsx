@@ -1,12 +1,12 @@
-import DepositUSDT from "@/components/EthererumBlockchain/DepositUSDT";
 import React, { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { sepoliaConfig } from "../config";
+import ApproveTokens from "@/components/EthererumBlockchain/ApproveTokens";
 
 const client = new QueryClient();
 
-const depositUSDT = () => {
+const approvetokens = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -21,11 +21,11 @@ const depositUSDT = () => {
     <div>
       <WagmiProvider config={sepoliaConfig}>
         <QueryClientProvider client={client}>
-          <DepositUSDT />
+          <ApproveTokens />
         </QueryClientProvider>
       </WagmiProvider>
     </div>
   );
 };
 
-export default depositUSDT;
+export default approvetokens;

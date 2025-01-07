@@ -1,14 +1,14 @@
-import DepositUSDT from "@/components/EthererumBlockchain/DepositUSDT";
 import React, { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
-import { sepoliaConfig } from "../config";
+import BurnTokens from "@/components/BaseBlockchain/BurnTokens";
+import SwitchChain from "./switchchain";
+import { config } from "@/config2";
 
 const client = new QueryClient();
 
-const depositUSDT = () => {
+const burnBUSDT = () => {
   const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -19,13 +19,14 @@ const depositUSDT = () => {
 
   return (
     <div>
-      <WagmiProvider config={sepoliaConfig}>
+      <WagmiProvider config={config}>
         <QueryClientProvider client={client}>
-          <DepositUSDT />
+          <SwitchChain />
+          <BurnTokens />
         </QueryClientProvider>
       </WagmiProvider>
     </div>
   );
 };
 
-export default depositUSDT;
+export default burnBUSDT;
