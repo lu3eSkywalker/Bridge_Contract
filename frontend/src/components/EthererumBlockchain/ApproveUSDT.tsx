@@ -1,30 +1,27 @@
+import { ethers } from "ethers";
 import React, { useState } from "react";
 import { useAccount, useWriteContract } from "wagmi";
-import { ethers } from "ethers";
-import { abi } from "./EthererumBlockchain/anotherABI";
-import DepositUSDT from '@/components/EthererumBlockchain/DepositUSDT';
+import { abi } from "./anotherABI";
 
-const DepositUSDTDesign = () => {
+const ApproveUSDT = () => {
   const { address } = useAccount();
 
-  const [depositTokenQuantity, setDepositTokenQuantity] = useState<string>("");
+  const [approveTokenQuantity, setApproveTokenQuantity] = useState<string>("");
 
-  const USDTcontractAddress = "0x4721468CF9DcA7e79a66508D9d9588e85B26eA2b";
-  const USDTTokenStoreContractAddress =
-    "0xEb5075AE5d8Ff0a22f41aC8F4E9f3D72170b9ce7";
+  const USDTContractAddress = "0x4721468CF9DcA7e79a66508D9d9588e85B26eA2b";
 
   const { data: hash, writeContract } = useWriteContract();
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const ethToWei = ethers.parseUnits(depositTokenQuantity, 18);
+    const ethToWei = ethers.parseUnits(approveTokenQuantity, 18);
 
     writeContract({
-      address: USDTTokenStoreContractAddress,
+      address: USDTContractAddress,
       abi,
-      functionName: "deposit",
-      args: [USDTcontractAddress, ethToWei],
+      functionName: "approve",
+      args: ["0xEb5075AE5d8Ff0a22f41aC8F4E9f3D72170b9ce7", ethToWei],
     });
   }
 
@@ -39,11 +36,11 @@ const DepositUSDTDesign = () => {
                   name="tokenId"
                   placeholder="Enter USDT Amount"
                   className="mx-2 px-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 shadow-sm transition duration-200 ease-in-out text-xl"
-                  onChange={(e) => setDepositTokenQuantity(e.target.value)}
+                  onChange={(e) => setApproveTokenQuantity(e.target.value)}
                 />
 
                 <button className="btn btn-info text-xl" type="submit">
-                  DepositUSDT
+                  Approve USDT
                 </button>
               </form>
             </div>
@@ -76,7 +73,7 @@ const DepositUSDTDesign = () => {
                   <li className="step step-success">
                     <a
                       className="text-white hover:text-pink-400"
-                      href="./burnusdtdesign"
+                      href="./burnbusdt"
                     >
                       <p className="font-black text-black text-xl px-3">
                         Burn BUSDT
@@ -91,13 +88,13 @@ const DepositUSDTDesign = () => {
 
         <div className="w-[700px] h-[500px] flex flex-col justify-center items-center bg-zinc-300 rounded-lg shadow-lg ml-8">
           <p className="text-4xl font-bold">
-            Deposit USDT to Sepolia To get BUSDT
+            Approve USDT to Deposit
           </p>
-          <p className="text-4xl font-bold">on BASE Sepolia</p>
+          <p className="text-4xl font-bold">on Sepolia</p>
         </div>
       </div>
     </div>
   );
 };
 
-export default DepositUSDTDesign;
+export default ApproveUSDT;

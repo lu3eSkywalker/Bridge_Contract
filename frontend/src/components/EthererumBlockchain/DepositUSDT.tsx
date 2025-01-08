@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { abi } from "./anotherABI";
 import { useAccount, useWriteContract } from "wagmi";
 import { ethers } from "ethers";
+import { abi } from "./anotherABI";
 
 const DepositUSDT = () => {
   const { address } = useAccount();
@@ -28,16 +28,73 @@ const DepositUSDT = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={submit}>
-        <input
-          name="tokenId"
-          placeholder="69420"
-          onChange={(e) => setDepositTokenQuantity(e.target.value)}
-        />
-        <button type="submit">Deposit</button>
-        {hash && <div>Transaction Hash: {hash}</div>}
-      </form>
+    <div className="bg-gray-900 min-h-screen flex items-center justify-center">
+      <div className="flex">
+        <div className="w-[700px] h-[500px] bg-slate-400 rounded-lg shadow-lg">
+          <div className="flex flex-col items-center justify-center">
+            <div className="my-[100px] ">
+              <form onSubmit={submit}>
+                <input
+                  name="tokenId"
+                  placeholder="Enter USDT Amount"
+                  className="mx-2 px-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 shadow-sm transition duration-200 ease-in-out text-xl"
+                  onChange={(e) => setDepositTokenQuantity(e.target.value)}
+                />
+
+                <button className="btn btn-info text-xl" type="submit">
+                  DepositUSDT
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <div className="mt-[70px] mx-[100px]">
+              <div className="text-white font-medium bg-slate-400 rounded-xl w-[600px] h-[130px]">
+                <ul className="steps">
+                  <li className="step step-secondary">
+                    <a
+                      className="text-white hover:text-pink-400"
+                      href="./approveusdt"
+                    >
+                      <p className="font-black text-black text-xl px-3">
+                        Approve Token
+                      </p>
+                    </a>
+                  </li>
+                  <li className="step step-primary">
+                    <a
+                      className="text-white hover:text-pink-400"
+                      href="./usdtdeposit"
+                    >
+                      <p className="font-black text-black text-xl px-3">
+                        Deposit USDT
+                      </p>
+                    </a>
+                  </li>
+                  <li className="step step-success">
+                    <a
+                      className="text-white hover:text-pink-400"
+                      href="./burnbusdt"
+                    >
+                      <p className="font-black text-black text-xl px-3">
+                        Burn BUSDT
+                      </p>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-[700px] h-[500px] flex flex-col justify-center items-center bg-zinc-300 rounded-lg shadow-lg ml-8">
+          <p className="text-4xl font-bold">
+            Deposit USDT to Sepolia To get BUSDT
+          </p>
+          <p className="text-4xl font-bold">on BASE Sepolia</p>
+        </div>
+      </div>
     </div>
   );
 };

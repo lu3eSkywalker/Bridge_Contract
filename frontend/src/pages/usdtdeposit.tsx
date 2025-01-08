@@ -1,4 +1,4 @@
-import DepositUSDTDesign from '@/components/DepositUSDTDesign'
+import DepositUSDTDesign from '@/components/EthererumBlockchain/DepositUSDT'
 import React from 'react'
 
 const usdtdeposit = () => {

@@ -3,20 +3,31 @@ import { useSwitchChain } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { config } from "../config2";
+import { getChainId } from "@wagmi/core";
 
 const client = new QueryClient();
 
 const SwitchChain = () => {
-  const { chains, switchChain } = useSwitchChain();
+  const { switchChain } = useSwitchChain();
 
-  const [isMounted, setIsMounted] = useState(false);
+  const [isBaseSepolia, setIsBaseSepolia] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    getCurrentChainId();
   }, []);
 
-  if (!isMounted) {
-    return null;
+  function getCurrentChainId() {
+    try {
+      const chainId = getChainId(config);
+      console.log("This is the Fucking Chain Id: ", chainId);
+      if (chainId === 84532) {
+        setIsBaseSepolia(true);
+      } else {
+        setIsBaseSepolia(false);
+      }
+    } catch (error) {
+      console.error("Error fetching chain ID:", error);
+    }
   }
 
   return (
@@ -24,21 +35,21 @@ const SwitchChain = () => {
       <WagmiProvider config={config}>
         <QueryClientProvider client={client}>
           <div>
-            {chains.map((chain) => (
+            {!isBaseSepolia ? (
               <div>
                 <button
-                  key={chain.id}
-                  className="btn btn-active btn-primary"
+                  className="btn btn-active btn-primary text-sm font-bold my-1"
                   onClick={() => {
-                    switchChain({ chainId: chain.id });
-                    console.log(chain.id);
+                    switchChain({ chainId: 84532 });
+                    getCurrentChainId()
                   }}
                 >
-                  Switch to {chain.name}
+                  Switch to Base Sepolia
                 </button>
               </div>
-            ))}
-
+            ) : (
+              <div></div>
+            )}
           </div>
         </QueryClientProvider>
       </WagmiProvider>

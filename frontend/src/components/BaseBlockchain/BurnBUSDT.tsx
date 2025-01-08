@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useAccount, useWriteContract } from "wagmi";
 import { ethers } from "ethers";
-import { abi } from "./BaseBlockchain/abi";
+import { abi } from "./abi";
 import SwitchChain from "@/pages/switchchain";
 
-const BurnUSDTDesign = () => {
+const BurnBUSDT = () => {
   const { address } = useAccount();
 
   const [tokenQuantity, setTokenQuantity] = useState<string>("");
@@ -36,7 +36,7 @@ const BurnUSDTDesign = () => {
                 <SwitchChain />
             </div>
             <div className="flex flex-col items-center justify-center">
-              <div className="my-[100px] ">
+              <div className="my-[80px] ">
                 <form onSubmit={submit}>
                   <input
                     name="tokenId"
@@ -79,7 +79,7 @@ const BurnUSDTDesign = () => {
                     <li className="step step-success">
                       <a
                         className="text-white hover:text-pink-400"
-                        href="./burnusdtdesign"
+                        href="./burnbusdt"
                       >
                         <p className="font-black text-black text-xl px-3">
                           Burn BUSDT
@@ -102,4 +102,4 @@ const BurnUSDTDesign = () => {
   );
 };
 
-export default BurnUSDTDesign;
+export default BurnBUSDT;

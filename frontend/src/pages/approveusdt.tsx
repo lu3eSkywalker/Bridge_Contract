@@ -1,4 +1,4 @@
-import ApproveUSDT from '@/components/ApproveUSDT'
+import ApproveUSDT from '@/components/EthererumBlockchain/ApproveUSDT'
 import React from 'react'
 
 const approveusdt = () => {
