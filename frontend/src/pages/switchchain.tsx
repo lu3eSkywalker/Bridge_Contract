@@ -8,9 +8,9 @@ const client = new QueryClient();
 
 const SwitchChain = () => {
   const { chains, switchChain } = useSwitchChain();
-  
+
   const [isMounted, setIsMounted] = useState(false);
-  
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -25,13 +25,20 @@ const SwitchChain = () => {
         <QueryClientProvider client={client}>
           <div>
             {chains.map((chain) => (
-              <button
-                key={chain.id}
-                onClick={() => switchChain({ chainId: chain.id })}
-              >
-                Switch to {chain.name}
-              </button>
+              <div>
+                <button
+                  key={chain.id}
+                  className="btn btn-active btn-primary"
+                  onClick={() => {
+                    switchChain({ chainId: chain.id });
+                    console.log(chain.id);
+                  }}
+                >
+                  Switch to {chain.name}
+                </button>
+              </div>
             ))}
+
           </div>
         </QueryClientProvider>
       </WagmiProvider>

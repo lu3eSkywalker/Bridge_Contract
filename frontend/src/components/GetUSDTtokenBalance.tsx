@@ -17,7 +17,6 @@ const GetUSDTtokenBalance = () => {
     console.log("This is the data: ", data);
   return (
     <div>
-
     </div>
   )
 }

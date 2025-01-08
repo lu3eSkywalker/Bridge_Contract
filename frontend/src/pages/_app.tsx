@@ -2,6 +2,7 @@ import { WagmiProvider } from 'wagmi';
 import { config } from '../config2';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppProps } from 'next/app';
+import "@/styles/globals.css";
 
 const client = new QueryClient();
 
