@@ -3,6 +3,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { ethers } from "ethers";
 import { abi } from "./abi";
 import SwitchChain from "@/pages/switchchain";
+import ConnectToWalletButton from "../ConnectToWalletButton";
 
 const BurnBUSDT = () => {
   const { address } = useAccount();
@@ -28,7 +29,9 @@ const BurnBUSDT = () => {
 
   return (
     <div>
-      {" "}
+      <div className="flex justify-end bg-gray-900 py-[10px] px-[15px]">
+        <ConnectToWalletButton />
+      </div>
       <div className="bg-gray-900 min-h-screen flex items-center justify-center">
         <div className="flex">
           <div className="w-[700px] h-[500px] bg-slate-400 rounded-lg shadow-lg">

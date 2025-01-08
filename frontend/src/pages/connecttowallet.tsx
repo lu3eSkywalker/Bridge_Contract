@@ -1,15 +1,13 @@
 import ConnectToWallet from '@/components/ConnectToWallet'
 import ConnectToWalletButton from '@/components/ConnectToWalletButton'
-import ApproveUSDT from '@/components/EthererumBlockchain/ApproveUSDT'
-import { ConnectKitButton } from 'connectkit'
 import React from 'react'
 
-const approveusdt = () => {
+const connecttowallet = () => {
   return (
     <div>
-        <ApproveUSDT />
+      <ConnectToWalletButton />
     </div>
   )
 }
 
-export default approveusdt
+export default connecttowallet

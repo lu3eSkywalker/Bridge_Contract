@@ -1,29 +1,30 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { sepoliaConfig } from "../config";
-import ConnectToWallet from "../components/ConnectToWallet";
+import { ConnectKitProvider } from "connectkit";
+import { config } from "../config2";
 
 const client = new QueryClient();
 
-const page = () => {
-    const [isMounted, setIsMounted] = useState(false);
+const Page = ({ children }: any) => {
+  const [isMounted, setIsMounted] = useState(false);
 
-    useEffect(() => {
-      setIsMounted(true);
-    }, []);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-    if (!isMounted) {
-      return null;
-    }
-    return (
-      <WagmiProvider config={sepoliaConfig}>
-        <QueryClientProvider client={client}>
-          <ConnectToWallet />
-        </QueryClientProvider>
-      </WagmiProvider>
-    );
+  if (!isMounted) {
+    return null;
+  }
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={client}>
+        <ConnectKitProvider>{children}</ConnectKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
 };
 
-export default page;
+export default Page;
