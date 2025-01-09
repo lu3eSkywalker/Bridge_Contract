@@ -7,10 +7,10 @@ import { getChainId } from "@wagmi/core";
 
 const client = new QueryClient();
 
-const SwitchChain = () => {
+const SwitchChainToSepolia = () => {
   const { switchChain } = useSwitchChain();
 
-  const [isBaseSepolia, setIsBaseSepolia] = useState(false);
+  const [isSepolia, setIsSepolia] = useState(false);
 
   useEffect(() => {
     getCurrentChainId();
@@ -19,11 +19,11 @@ const SwitchChain = () => {
   function getCurrentChainId() {
     try {
       const chainId = getChainId(config);
-      console.log("This is the Fucking Chain Id: ", chainId);
-      if (chainId === 84532) {
-        setIsBaseSepolia(true);
+      console.log("This is the Chain Id: ", chainId);
+      if (chainId === 11155111) {
+        setIsSepolia(true);
       } else {
-        setIsBaseSepolia(false);
+        setIsSepolia(false);
       }
     } catch (error) {
       console.error("Error fetching chain ID:", error);
@@ -35,16 +35,16 @@ const SwitchChain = () => {
       <WagmiProvider config={config}>
         <QueryClientProvider client={client}>
           <div>
-            {!isBaseSepolia ? (
+            {!isSepolia ? (
               <div>
                 <button
                   className="btn btn-active btn-primary text-sm font-bold my-1"
                   onClick={() => {
-                    switchChain({ chainId: 84532 });
+                    switchChain({ chainId: 11155111 });
                     window.location.reload();
                   }}
                 >
-                  Switch to Base Sepolia
+                  Switch to Sepolia
                 </button>
               </div>
             ) : (
@@ -57,4 +57,4 @@ const SwitchChain = () => {
   );
 };
 
-export default SwitchChain;
+export default SwitchChainToSepolia;

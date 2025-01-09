@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useAccount, useWriteContract } from "wagmi";
 import { ethers } from "ethers";
 import { abi } from "./anotherABI";
-import ConnectToWallet from "../ConnectToWallet";
-import ConnectToWalletButton from "../ConnectToWalletButton";
+import CurrentChain from "../CurrentChain";
+import Navbar from "../Design/Navbar";
+import SwitchChainToSepolia from "../SwitchChainToSepolia";
 
 const DepositUSDT = () => {
   const { address } = useAccount();
@@ -31,14 +32,20 @@ const DepositUSDT = () => {
 
   return (
     <div>
+      <div>
+        <Navbar />
+      </div>
       <div className="flex justify-end bg-gray-900 py-[10px] px-[15px]">
-        <ConnectToWalletButton />
+        <CurrentChain />
       </div>
       <div className="bg-gray-900 min-h-screen flex items-center justify-center">
         <div className="flex">
           <div className="w-[700px] h-[500px] bg-slate-400 rounded-lg shadow-lg">
+            <div className="flex justify-end mx-2">
+              <SwitchChainToSepolia />
+            </div>
             <div className="flex flex-col items-center justify-center">
-              <div className="my-[100px] ">
+              <div className="my-[80px] ">
                 <form onSubmit={submit}>
                   <input
                     name="tokenId"

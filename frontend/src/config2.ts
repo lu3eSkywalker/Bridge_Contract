@@ -3,7 +3,7 @@ import { sepolia, baseSepolia } from 'wagmi/chains'
 import { injected } from 'wagmi/connectors'
 
 export const config = createConfig({
-  chains: [baseSepolia, sepolia],
+  chains: [sepolia, baseSepolia],
   connectors: [
     injected(),
   ],

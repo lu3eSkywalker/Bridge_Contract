@@ -7,7 +7,7 @@ import { getChainId } from "@wagmi/core";
 
 const client = new QueryClient();
 
-const SwitchChain = () => {
+const SwitchChainToBase = () => {
   const { switchChain } = useSwitchChain();
 
   const [isBaseSepolia, setIsBaseSepolia] = useState(false);
@@ -19,7 +19,7 @@ const SwitchChain = () => {
   function getCurrentChainId() {
     try {
       const chainId = getChainId(config);
-      console.log("This is the Fucking Chain Id: ", chainId);
+      console.log("This is the Chain Id: ", chainId);
       if (chainId === 84532) {
         setIsBaseSepolia(true);
       } else {
@@ -57,4 +57,4 @@ const SwitchChain = () => {
   );
 };
 
-export default SwitchChain;
+export default SwitchChainToBase;
