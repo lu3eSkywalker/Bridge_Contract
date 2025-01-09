@@ -23,6 +23,9 @@ const ApproveUSDT = () => {
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const ethToWei = ethers.parseUnits(approveTokenQuantity, 18);
+
+    setIsLoading(true);
+
     try {
       writeContract({
         address: USDTContractAddress,
@@ -60,6 +63,9 @@ const ApproveUSDT = () => {
       if (receipt?.status === 1) {
         setTokenApproved(true);
       }
+
+      setIsLoading(false);
+
     } catch (error) {
       console.error("Error fetching transaction status:", error);
     }

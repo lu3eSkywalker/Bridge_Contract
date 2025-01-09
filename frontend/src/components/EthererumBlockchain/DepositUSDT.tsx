@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAccount, useWriteContract } from "wagmi";
 import { ethers } from "ethers";
 import { abi } from "./anotherABI";
@@ -10,6 +10,8 @@ const DepositUSDT = () => {
   const { address } = useAccount();
 
   const [depositTokenQuantity, setDepositTokenQuantity] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [tokenDeposited, setTokenDeposited] = useState<boolean>(false);
 
   const USDTcontractAddress = "0x4721468CF9DcA7e79a66508D9d9588e85B26eA2b";
   const USDTTokenStoreContractAddress =
@@ -22,6 +24,8 @@ const DepositUSDT = () => {
 
     const ethToWei = ethers.parseUnits(depositTokenQuantity, 18);
 
+    setIsLoading(true);
+    
     writeContract({
       address: USDTTokenStoreContractAddress,
       abi,
@@ -29,6 +33,43 @@ const DepositUSDT = () => {
       args: [USDTcontractAddress, ethToWei],
     });
   }
+
+  const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
+
+  async function getTransactionStatus(hash: any) {
+    try {
+      if (hash === undefined) {
+        return;
+      }
+
+      const ifTransactionIsPending = await provider.getTransaction(hash);
+      console.log(ifTransactionIsPending);
+
+      if (ifTransactionIsPending?.blockHash === null) {
+        console.log("Transaction is pending");
+        setTimeout(() => getTransactionStatus(hash), 2000);
+        console.log("Calling the transaction Again");
+        return;
+      }
+
+      const receipt = await provider.getTransactionReceipt(hash);
+
+      console.log("This is the receipt: ", receipt);
+
+      if (receipt?.status === 1) {
+        setTokenDeposited(true);
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching transaction status:", error);
+    }
+  }
+
+  useEffect(() => {
+    getTransactionStatus(hash);
+  }, [hash]);
+
 
   return (
     <div>
@@ -46,7 +87,7 @@ const DepositUSDT = () => {
             </div>
             <div className="flex flex-col items-center justify-center">
               <div className="my-[80px] ">
-                <form onSubmit={submit}>
+                <form onSubmit={submit} className="flex items-center">
                   <input
                     name="tokenId"
                     placeholder="Enter USDT Amount"
@@ -57,6 +98,24 @@ const DepositUSDT = () => {
                   <button className="btn btn-info text-xl" type="submit">
                     DepositUSDT
                   </button>
+
+                  <div className="flex items-center ml-4">
+                    {tokenDeposited ? (
+                      <input
+                        type="checkbox"
+                        defaultChecked
+                        className="checkbox checkbox-success mx-2 my-[-7px]"
+                      />
+                    ) : (
+                      <div></div>
+                    )}
+
+                    {isLoading ? (
+                      <span className="loading loading-spinner text-primary ml-4"></span>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
                 </form>
               </div>
             </div>
