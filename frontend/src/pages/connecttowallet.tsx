@@ -1,4 +1,3 @@
-import ConnectToWallet from '@/components/ConnectToWallet'
 import ConnectToWalletButton from '@/components/ConnectToWalletButton'
 import React from 'react'
 

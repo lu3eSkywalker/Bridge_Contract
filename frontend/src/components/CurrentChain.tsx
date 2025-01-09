@@ -12,10 +12,10 @@ const CurrentChain = () => {
   function getCurrentChainId() {
     try {
       const chainId = getChainId(config);
-      console.log("This is the Fucking Chain Id: ", chainId);
+      console.log("This is the Chain Id: ", chainId);
 
-      const currentChainName: any =
-        chains.find((chain) => chain.id === chainId) || "";
+      const currentChainName =
+        chains.find((chain) => chain.id === chainId) || {name: ""};
       console.log(currentChainName.name);
       setChainName(currentChainName.name);
     } catch (error) {
@@ -27,7 +27,7 @@ const CurrentChain = () => {
     if (isConnected) {
       getCurrentChainId();
     } else {
-      console.log("It is not fucking connected");
+      console.log("It is not connected");
     }
   }, []);
 

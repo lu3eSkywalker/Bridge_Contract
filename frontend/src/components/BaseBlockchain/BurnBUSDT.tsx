@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import { useAccount, useWriteContract } from "wagmi";
+import React, { useEffect, useState } from "react";
+import { useWriteContract } from "wagmi";
 import { ethers } from "ethers";
 import { abi } from "./abi";
-import SwitchChain from "@/pages/switchchain";
-import ConnectToWalletButton from "../ConnectToWalletButton";
 import CurrentChain from "../CurrentChain";
 import Navbar from "../Design/Navbar";
 import SwitchChainToBase from "../SwitchChainToBase";
 
 const BurnBUSDT = () => {
-  const { address } = useAccount();
-
   const [tokenQuantity, setTokenQuantity] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [tokenBurned, setTokenBurned] = useState<boolean>(false);
 
   const BUSDTcontractAddress = "0x0D5809846D1cA42Fa361E91399F770CB0a4824ED";
 
@@ -22,6 +20,7 @@ const BurnBUSDT = () => {
 
     const ethToWei = ethers.parseUnits(tokenQuantity, 18);
 
+    setIsLoading(true);
     writeContract({
       address: BUSDTcontractAddress,
       abi,
@@ -29,6 +28,42 @@ const BurnBUSDT = () => {
       args: [ethToWei],
     });
   }
+
+  const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL_BASE_SEPOLIA);
+
+  async function getTransactionStatus(hash: string | undefined) {
+    try {
+      if (hash === undefined) {
+        return;
+      }
+
+      const ifTransactionIsPending = await provider.getTransaction(hash);
+      console.log(ifTransactionIsPending);
+
+      if (ifTransactionIsPending?.blockHash === null) {
+        console.log("Transaction is pending");
+        setTimeout(() => getTransactionStatus(hash), 2000);
+        console.log("Calling the transaction Again");
+        return;
+      }
+
+      const receipt = await provider.getTransactionReceipt(hash);
+
+      console.log("This is the receipt: ", receipt);
+
+      if (receipt?.status === 1) {
+        setTokenBurned(true);
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching transaction status:", error);
+    }
+  }
+
+  useEffect(() => {
+    getTransactionStatus(hash);
+  }, [hash]);
 
   return (
     <div>
@@ -38,15 +73,15 @@ const BurnBUSDT = () => {
       <div className="flex justify-end bg-gray-900 py-[10px] px-[15px]">
         <CurrentChain />
       </div>
-      <div className="bg-gray-900 min-h-screen flex items-center justify-center">
+      <div className="bg-gray-900 min-h-screen flex items-center justify-center mt-[-60px]">
         <div className="flex">
-          <div className="w-[700px] h-[500px] bg-slate-400 rounded-lg shadow-lg">
+          <div className="w-[700px] h-[450px] bg-slate-400 rounded-lg shadow-lg">
             <div className="flex justify-end mx-2">
               <SwitchChainToBase />
             </div>
             <div className="flex flex-col items-center justify-center">
               <div className="my-[80px] ">
-                <form onSubmit={submit}>
+                <form onSubmit={submit} className="flex items-center">
                   <input
                     name="tokenId"
                     placeholder="Enter USDT Amount"
@@ -57,12 +92,30 @@ const BurnBUSDT = () => {
                   <button className="btn btn-info text-xl" type="submit">
                     Burn BUSDT
                   </button>
+
+                  <div className="flex items-center ml-4">
+                    {tokenBurned ? (
+                      <input
+                        type="checkbox"
+                        defaultChecked
+                        className="checkbox checkbox-success mx-2 my-[-7px]"
+                      />
+                    ) : (
+                      <div></div>
+                    )}
+
+                    {isLoading ? (
+                      <span className="loading loading-spinner text-primary ml-4"></span>
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
                 </form>
               </div>
             </div>
 
             <div>
-              <div className="mt-[70px] mx-[100px]">
+              <div className="mt-[10px] mx-[100px]">
                 <div className="text-white font-medium bg-slate-400 rounded-xl w-[600px] h-[130px]">
                   <ul className="steps">
                     <li className="step step-secondary">
@@ -101,7 +154,7 @@ const BurnBUSDT = () => {
             </div>
           </div>
 
-          <div className="w-[700px] h-[500px] flex flex-col justify-center items-center bg-zinc-300 rounded-lg shadow-lg ml-8">
+          <div className="w-[700px] h-[450px] flex flex-col justify-center items-center bg-zinc-300 rounded-lg shadow-lg ml-8">
             <p className="text-4xl font-bold">
               Burn BUSDT on Base Sepolia to get
             </p>

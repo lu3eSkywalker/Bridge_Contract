@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAccount, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import { ethers } from "ethers";
 import { abi } from "./anotherABI";
 import CurrentChain from "../CurrentChain";
@@ -7,8 +7,6 @@ import Navbar from "../Design/Navbar";
 import SwitchChainToSepolia from "../SwitchChainToSepolia";
 
 const DepositUSDT = () => {
-  const { address } = useAccount();
-
   const [depositTokenQuantity, setDepositTokenQuantity] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [tokenDeposited, setTokenDeposited] = useState<boolean>(false);
@@ -25,7 +23,7 @@ const DepositUSDT = () => {
     const ethToWei = ethers.parseUnits(depositTokenQuantity, 18);
 
     setIsLoading(true);
-    
+
     writeContract({
       address: USDTTokenStoreContractAddress,
       abi,
@@ -36,7 +34,7 @@ const DepositUSDT = () => {
 
   const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
 
-  async function getTransactionStatus(hash: any) {
+  async function getTransactionStatus(hash: string | undefined) {
     try {
       if (hash === undefined) {
         return;
@@ -70,7 +68,6 @@ const DepositUSDT = () => {
     getTransactionStatus(hash);
   }, [hash]);
 
-
   return (
     <div>
       <div>
@@ -79,9 +76,9 @@ const DepositUSDT = () => {
       <div className="flex justify-end bg-gray-900 py-[10px] px-[15px]">
         <CurrentChain />
       </div>
-      <div className="bg-gray-900 min-h-screen flex items-center justify-center">
+      <div className="bg-gray-900 min-h-screen flex items-center justify-center mt-[-60px]">
         <div className="flex">
-          <div className="w-[700px] h-[500px] bg-slate-400 rounded-lg shadow-lg">
+          <div className="w-[700px] h-[450px] bg-slate-400 rounded-lg shadow-lg">
             <div className="flex justify-end mx-2">
               <SwitchChainToSepolia />
             </div>
@@ -121,7 +118,7 @@ const DepositUSDT = () => {
             </div>
 
             <div>
-              <div className="mt-[70px] mx-[100px]">
+              <div className="mt-[10px] mx-[100px]">
                 <div className="text-white font-medium bg-slate-400 rounded-xl w-[600px] h-[130px]">
                   <ul className="steps">
                     <li className="step step-secondary">
@@ -160,7 +157,7 @@ const DepositUSDT = () => {
             </div>
           </div>
 
-          <div className="w-[700px] h-[500px] flex flex-col justify-center items-center bg-zinc-300 rounded-lg shadow-lg ml-8">
+          <div className="w-[700px] h-[450px] flex flex-col justify-center items-center bg-zinc-300 rounded-lg shadow-lg ml-8">
             <p className="text-4xl font-bold">
               Deposit USDT to Sepolia To get BUSDT
             </p>

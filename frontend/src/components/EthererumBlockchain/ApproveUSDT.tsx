@@ -1,20 +1,16 @@
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
-import { useAccount, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import { abi } from "./anotherABI";
 import CurrentChain from "../CurrentChain";
 import Navbar from "../Design/Navbar";
 import SwitchChainToSepolia from "../SwitchChainToSepolia";
 
 const ApproveUSDT = () => {
-  const { address } = useAccount();
-
   const [approveTokenQuantity, setApproveTokenQuantity] = useState<string>("");
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [tokenApproved, setTokenApproved] = useState<boolean>(false);
-  const [toggle, setToggle] = useState<boolean>(false);
-  const [transactionHash, setTransactionHash] = useState<string | null>(null);
 
   const USDTContractAddress = "0x4721468CF9DcA7e79a66508D9d9588e85B26eA2b";
 
@@ -40,7 +36,7 @@ const ApproveUSDT = () => {
 
   const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
 
-  async function getTransactionStatus(hash: any) {
+  async function getTransactionStatus(hash: string | undefined) {
     try {
       if (hash === undefined) {
         return;
@@ -65,7 +61,6 @@ const ApproveUSDT = () => {
       }
 
       setIsLoading(false);
-
     } catch (error) {
       console.error("Error fetching transaction status:", error);
     }
@@ -83,9 +78,9 @@ const ApproveUSDT = () => {
       <div className="flex justify-end bg-gray-900 py-[10px] px-[15px]">
         <CurrentChain />
       </div>
-      <div className="bg-gray-900 min-h-screen flex items-center justify-center">
+      <div className="bg-gray-900 min-h-screen flex items-center justify-center mt-[-60px]">
         <div className="flex">
-          <div className="w-[750px] h-[500px] bg-slate-400 rounded-lg shadow-lg">
+          <div className="w-[700px] h-[450px] bg-slate-400 rounded-lg shadow-lg">
             <div className="flex justify-end mx-2">
               <SwitchChainToSepolia />
             </div>
@@ -128,7 +123,7 @@ const ApproveUSDT = () => {
             </div>
 
             <div>
-              <div className="mt-[70px] mx-[100px]">
+              <div className="mt-[10px] mx-[100px]">
                 <div className="text-white font-medium bg-slate-400 rounded-xl w-[600px] h-[130px]">
                   <ul className="steps">
                     <li className="step step-secondary">
@@ -167,7 +162,7 @@ const ApproveUSDT = () => {
             </div>
           </div>
 
-          <div className="w-[700px] h-[500px] flex flex-col justify-center items-center bg-zinc-300 rounded-lg shadow-lg ml-8">
+          <div className="w-[700px] h-[450px] flex flex-col justify-center items-center bg-zinc-300 rounded-lg shadow-lg ml-8">
             <p className="text-4xl font-bold">Approve USDT to Deposit</p>
             <p className="text-4xl font-bold">on Sepolia</p>
           </div>
