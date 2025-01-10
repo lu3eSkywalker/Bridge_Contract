@@ -45,7 +45,7 @@ const ApproveUSDT = () => {
       const ifTransactionIsPending = await provider.getTransaction(hash);
       console.log(ifTransactionIsPending);
 
-      if (ifTransactionIsPending?.blockHash === null) {
+      if (!ifTransactionIsPending || ifTransactionIsPending?.blockHash === null) {
         console.log("Transaction is pending");
         setTimeout(() => getTransactionStatus(hash), 2000);
         console.log("Calling the transaction Again");
