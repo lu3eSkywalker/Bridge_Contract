@@ -4,15 +4,14 @@ import { ethers } from 'ethers';
 require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 const ethereumRpcUrl = process.env.ETHEREUM_RPC_URL;
 const baseRpcUrl = process.env.BASE_RPC_URL;
 const ethereumPrivateKey = process.env.ETH_PRIVATE_KEY;
 const basePrivateKey = process.env.BASE_PRIVATE_KEY;
 
-// const lockUnlockAddress = "0xEbf653876160b9FeF203e7142A2235C41a6327D0";
-const lockUnlockAddress = "0xEb5075AE5d8Ff0a22f41aC8F4E9f3D72170b9ce7";
+const lockUnlockAddress = "0xC3518a469Ac65Fc9623713C85a6Eb81878f9190a"
 const baseContractAddress = "0x0D5809846D1cA42Fa361E91399F770CB0a4824ED";
 
 const abiETH = [
@@ -25,7 +24,6 @@ const abiBASE = [
 
 
 const ethABI = [
-    "function unlockTokens(address _to, uint256 _tokenValue)",
     "function tokenBurnedOnBaseChain(address _to, uint256 _tokenValue)"
 ];
 
@@ -44,7 +42,6 @@ const baseContract = new ethers.Contract(baseContractAddress, baseAbi, baseWalle
 const lockContract = new ethers.Contract(lockUnlockAddress, abiETH, ethereumProvider);
 
 const burnTokensContract = new ethers.Contract(baseContractAddress, abiBASE, baseProvider);
-
 
 // Token Mint If Token Lock
 lockContract.on("LockEvent", async (sender, _tokenValue) => {
