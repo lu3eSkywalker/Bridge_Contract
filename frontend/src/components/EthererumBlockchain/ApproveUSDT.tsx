@@ -27,7 +27,7 @@ const ApproveUSDT = () => {
         address: USDTContractAddress,
         abi,
         functionName: "approve",
-        args: ["0xEb5075AE5d8Ff0a22f41aC8F4E9f3D72170b9ce7", ethToWei],
+        args: ["0xC3518a469Ac65Fc9623713C85a6Eb81878f9190a", ethToWei],
       });
     } catch (error) {
       console.log("Error loading the transaction", error);

@@ -13,7 +13,7 @@ const DepositUSDT = () => {
 
   const USDTcontractAddress = "0x4721468CF9DcA7e79a66508D9d9588e85B26eA2b";
   const USDTTokenStoreContractAddress =
-    "0xEb5075AE5d8Ff0a22f41aC8F4E9f3D72170b9ce7";
+    "0xC3518a469Ac65Fc9623713C85a6Eb81878f9190a";
 
   const { data: hash, writeContract } = useWriteContract();
 

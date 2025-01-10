@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
@@ -17,12 +18,17 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   if (!isMounted) {
     return null;
   }
+
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={client}>
-        <ConnectKitProvider>{children}</ConnectKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <html lang="en">
+      <body>
+        <WagmiProvider config={config}>
+          <QueryClientProvider client={client}>
+            <ConnectKitProvider>{children}</ConnectKitProvider>
+          </QueryClientProvider>
+        </WagmiProvider>
+      </body>
+    </html>
   );
 };
 
