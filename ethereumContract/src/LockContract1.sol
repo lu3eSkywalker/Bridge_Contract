@@ -31,15 +31,15 @@ contract LockETH is Ownable {
             _tokenValue
         );
         require(success, "Token transfer failed");
-        balanceOfToken[msg.sender] += _tokenValue;
 
         emit LockEvent(msg.sender, _tokenValue);
     }
 
     function withdraw(address _tokenAddress, uint256 _tokenValue) public {
+        require(_tokenValue > 0, "Token value must be greater than 0");
         require(tokenAddress == _tokenAddress, "The token address should be same as the above");
         uint256 _tokenBalance = balanceOfToken[msg.sender];
-        require(_tokenBalance >= _tokenValue, "The Token Doesn't Exist on this Contract");
+        require(_tokenBalance >= _tokenValue, "Insufficient Balance");
 
         balanceOfToken[msg.sender] -= _tokenValue;
         IERC20 token = IERC20(_tokenAddress);

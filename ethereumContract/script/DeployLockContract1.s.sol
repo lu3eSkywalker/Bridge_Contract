@@ -9,7 +9,7 @@ contract DeployLockContract1 is Script {
 
         vm.startBroadcast();
 
-        LockETH locketh = new LockETH(0x5FbDB2315678afecb367f032d93F642f64180aa3);
+        LockETH locketh = new LockETH(0x4721468CF9DcA7e79a66508D9d9588e85B26eA2b);
 
         vm.stopBroadcast();
 
